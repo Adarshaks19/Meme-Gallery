@@ -1,16 +1,20 @@
+*{
+    margin: 0;
+}
+
 .home{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #0B1416;
+    background-color: #fbfcfbe7;
     gap: 2px;
 }
 
-.home h1{
-    font-size: 90px;
-    font-weight: 700;
-    color: rgb(201, 42, 42);
-    font-family: 'Open Sans', sans-serif;
 
+.home h1{
+    font-size: 80px;
+    font-weight: 1000;
+    color: black    ;
+    font-family: 'Open Sans', sans-serif;
 }

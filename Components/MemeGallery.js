@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './MemeGallery.css';
 import 'photoswipe/dist/photoswipe.css'
-
 import { Gallery, Item } from 'react-photoswipe-gallery'
 
 const MemeGallery = () => {
@@ -33,21 +32,20 @@ const MemeGallery = () => {
 
   return (
     <div className='meme-gallery-container'>
+        <Gallery>
+          {memes.filter((meme) => !meme.is_video).map((meme)=>(
+            <Item
+            original={meme.fullResolution}
+            thumbnail={meme.thumbnail}
+            width="1024"
+            height="768"
+          >
+            {({ ref, open }) => (
+            <img ref={ref} onClick={open} src={meme.fullResolution} />)}
 
-    <Gallery>
-      {memes.filter((meme) => !meme.is_video).map((meme)=>(
-        <Item
-        original={meme.fullResolution}
-        thumbnail={meme.thumbnail}
-        width="1024"
-        height="768"
-      >
-        {({ ref, open }) => (
-        <img ref={ref} onClick={open} src={meme.fullResolution} />)}
-
-      </Item>
-        ))}
-    </Gallery>
+          </Item>
+            ))}
+        </Gallery>
     </div>
     
   );
