@@ -7,33 +7,43 @@ import { Gallery, Item } from 'react-photoswipe-gallery'
 
 const MemeGallery = () => {
   const [memes, setMemes] = useState([]);
+  const [after, setAfter] = useState('');
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`https://www.reddit.com/r/memes.json?after=${after}`);
+      const newMemes = response.data.data.children.filter((post)=>!post.data.is_video && post.data.domain==="i.redd.it").map((post) => ({
+        thumbnail: post.data.thumbnail,
+        fullResolution: post.data.url,
+      }));
+      setMemes((prevMemes) => [...prevMemes, ...newMemes]);
+      setAfter(response.data.data.after);
+    } catch (error) {
+      console.error('Error fetching memes:', error);
+    }
+  };
+  const handleScroll = () => {
+    const scrollThreshold = 80;
+    if (
+      window.innerHeight + document.documentElement.scrollTop >=
+      document.documentElement.offsetHeight - scrollThreshold
+    ) {
+      fetchData();
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('https://www.reddit.com/r/memes.json');
-        const newMemes = response.data.data.children.map((post) => ({
-          thumbnail: post.data.thumbnail,
-          fullResolution: post.data.url,
-          is_video:post.data.is_video,
-        }));
-        console.log(response.data.data.children);
-        console.log(newMemes);
-        setMemes((prevMemes) => [...prevMemes, ...newMemes]);
-      } catch (error) {
-        console.error('Error fetching memes:', error);
-      }
-    };
-
     fetchData();
-  }, []);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [after]);
 
   
 
   return (
     <div className='meme-gallery-container'>
         <Gallery>
-          {memes.filter((meme) => !meme.is_video).map((meme)=>(
+          {memes.map((meme)=>(
             <Item
             original={meme.fullResolution}
             thumbnail={meme.thumbnail}
