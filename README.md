@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This project is a simple meme gallery built with Next.js, fetching memes from Reddit's API and displaying them using the Photoswipe library. The gallery supports infinite scrolling, allowing users to load more memes as they scroll down.
+
+Vercel Link:https://meme-gallery-eta.vercel.app/
 
 ## Getting Started
 
